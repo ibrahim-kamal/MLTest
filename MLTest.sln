@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36511.14 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLTest", "MLTest.csproj", "{4D39E1DA-C01A-438A-B133-C449623D02FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLTest", "MLTest\MLTest.csproj", "{4D39E1DA-C01A-438A-B133-C449623D02FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLAPI", "..\MLAPI\MLAPI.csproj", "{4E421B27-8E17-40B2-9202-1DF2F3ACB369}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLAPI", "MLAPI\MLAPI.csproj", "{4E421B27-8E17-40B2-9202-1DF2F3ACB369}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
