@@ -21,43 +21,61 @@ namespace MLAPI
             // Create PredictionEngines
             PredictionEngine<VoiceModelInput, VoiceModelOutput> predictionEngine = mlContext.Model.CreatePredictionEngine<VoiceModelInput, VoiceModelOutput>(predictionPipeline);
 
-            // Input Data
-            VoiceModelInput inputData = new VoiceModelInput
+            var lines = System.IO.File.ReadAllLines(Path.GetFullPath("test.csv"));
+
+            List<bool> rightPrediction = new();
+            foreach (var line in lines) // skip header
             {
-                Col0 = -53.0878f,
-                Col1 = 1.7838501f,
-                Col2 = 0.16679822f,
-                Col3 = -0.08908448f,
-                Col4 = -0.4072238f,
-                Col5 = -0.7186171f,
-                Col6 = -0.55853546f,
-                Col7 = -0.40691668f,
-                Col8 = -0.2775434f,
-                Col9 = -0.3254362f,
-                Col10 = -0.22339426f,
-                Col11 = -0.25185585f,
-                Col12 = -0.21989082f,
-                Col13 = 70.60686f,
-                Col14 = 2.5933323f,
-                Col15 = 1.0606415f,
-                Col16 = 1.0527081f,
-                Col17 = 0.884687f,
-                Col18 = 0.8091588f,
-                Col19 = 0.6836234f,
-                Col20 = 0.49215502f,
-                Col21 = 0.5542993f,
-                Col22 = 0.44158593f,
-                Col23 = 0.3581943f,
-                Col24 = 0.4708691f,
-                Col25 = 0.33864424f,
-            };
+                var parts = line.Split(',');
 
-            // Get Prediction
-            VoiceModelOutput prediction = predictionEngine.Predict(inputData);
 
-            return Ok((Emotion)prediction.PredictedLabel);
+                float[] features = parts.Select(x => float.Parse(x)).ToArray();
+
+
+                // Input Data
+                VoiceModelInput inputData = new VoiceModelInput
+                {
+                    Col0 = features[0],
+                    Col1 = features[1],
+                    Col2 = features[2],
+                    Col3 = features[3],
+                    Col4 = features[4],
+                    Col5 = features[5],
+                    Col6 = features[6],
+                    Col7 = features[7],
+                    Col8 = features[8],
+                    Col9 = features[9],
+                    Col10 = features[10],
+                    Col11 = features[11],
+                    Col12 = features[12],
+                    Col13 = features[13],
+                    Col14 = features[14],
+                    Col15 = features[15],
+                    Col16 = features[16],
+                    Col17 = features[17],
+                    Col18 = features[18],
+                    Col19 = features[19],
+                    Col20 = features[20],
+                    Col21 = features[21],
+                    Col22 = features[22],
+                    Col23 = features[23],
+                    Col24 = features[24],
+                    Col25 = features[25],
+                };
+
+                // Get Prediction
+                VoiceModelOutput prediction = predictionEngine.Predict(inputData);
+                Console.WriteLine($"{prediction.PredictedLabel} == {features[26]}");
+                rightPrediction.Add(prediction.PredictedLabel == features[26]);
+            }
+            var x = rightPrediction.Count(r => r == true);
+            var y = rightPrediction.Count();
+            var rate = ( (float) x/ y );
+            return Ok(new { rate = rate * 100 });
         }
     }
+
+    
 
 
     public enum Emotion
